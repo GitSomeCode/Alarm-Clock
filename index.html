@@ -39,6 +39,8 @@
                             <h1>Wake me up in</h1>
                             <input type="number" min="1" max="60" step="1" id="minutes">
                             <h1>minutes</h1>
+                          
+                            <p id="countdown"></p>
                             
                             <button type="button" id="set-button" class="btn btn-default"> set </button>
                         </div>
@@ -96,9 +98,58 @@
                   setInterval(function(){
                     var d = new Date();
                     $("#real-time-clock > h1").text(format(d.getHours(), d.getMinutes(), d.getSeconds()));
-                    console.log('hello');
                   }, 1000);
                 }
+              
+              /*
+                function formatCountdown(min, sec){
+                  if(sec == 0){
+                    min--;
+                    sec = 60;
+                    console.log("NEW MINUTE--> " + min + ":" + sec);
+                  }
+                  else {
+                    sec--;
+                    console.log("NOT NEW MINTE--> " + min + ":" + sec);
+                  }
+                  
+                  console.log(min + ":" + sec);
+                  $("#countdown").val(min + ":" + sec);
+                  
+                }
+                */
+                
+                function decrement(min, sec){
+            
+                  totalSec = min*60;
+                  
+                  return setInterval(function(){
+                    if(totalSec == 0)
+                      console.log("REACHED ZERO");
+                    else{
+                      totalSec--;
+                      console.log("current secs " + totalSec);
+                      
+                      // formatting countdown to display
+                      if(sec == 0){
+                        min--;
+                        sec = 60;
+                        sec--;
+                        console.log("NEW MINUTE--> " + min + ":" + sec);
+                      }
+                      else {
+                        sec--;
+                        console.log("NOT NEW MINTE--> " + min + ":" + sec);
+                      }
+
+                      console.log(min + ":" + sec);
+                      $("#countdown").text(min + ":" + sec);
+                      //
+                      
+                    } 
+                  }, 1000);
+                }
+                 
               
                 /* END OF HELPER FUNCTIONS */
               
@@ -115,11 +166,22 @@
               
                 $("#date > h3").text(getDay(day) + " " + getMonth(month) + " " + date + ", " + year);
                 realTime();
+                  
+                
                 
                 $("#set-button").click(function(){
                     var m = $("#minutes").val();
                     alert("You set " + m + " minutes!");
                 });
+              
+              minutes = 2;
+              seconds = 0;
+              
+              
+                  
+              decrement(minutes, seconds);
+              
+              
                 
             });
         </script>
