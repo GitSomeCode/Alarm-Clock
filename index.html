@@ -41,9 +41,12 @@
                           <h1>minutes</h1>
                             <button type="button" id="set-button" class="btn btn-default"> set </button>
                         </div>
+                     
                       
-                        <p id="countdown"></p>
-                        
+                        <div id="countdown">
+                          <p></p>
+                          <button type="button" class="btn btn-default">cancel</button>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -63,6 +66,7 @@
             $(document).ready(function(){
               
               var countdownReady = false;
+              displayJumbotron(countdownReady);
               
                 /* HELPER FUNCTIONS */ 
                 function getDay(day){
@@ -104,17 +108,15 @@
                   totalSec = min*60;
                   
                   var timer = setInterval(function(){
+                    
                     if(totalSec == 0){
                       console.log("REACHED ZERO");
                       clearInterval(timer);
                       countdownReady = false;
-                      setTimeout(function(){
-                        $("#countdown").css({"color":"red"}); 
+                      $("#countdown p").css({"color":"red"});
+                      setTimeout(function(){ 
                         displayJumbotron(countdownReady);
                       }, 5000);
-                      
-                      // 00:00 not changing to red. Waiting 5 seconds and returning to initial screen, though.
-                      
                     }
                     else{
                       totalSec--;
@@ -131,12 +133,12 @@
                         sec--;
                         console.log("NOT NEW MINTE--> " + min + ":" + sec);
                       }
-
                       console.log(min + ":" + sec);
-                      $("#countdown").text(min + ":" + sec);
+                      $("#countdown p").text(min + ":" + sec);
                       //
                       
                     } 
+                    
                   }, 1000);
                   
                   return timer;
@@ -144,12 +146,14 @@
               
                 function displayJumbotron(countdownReady){
                  if (!countdownReady){
-                   $("#countdown").hide();
+                   $("#countdown").children().hide();
+                   $("#countdown p").css({"color":"black"});
                    $("#wake-me").show();
+                   $("#minutes").val('');
                  }
                  else {
                    $("#wake-me").hide();
-                   $("#countdown").show();
+                   $("#countdown").children().show();
                  }
                }
                 /* END OF HELPER FUNCTIONS */
@@ -178,6 +182,12 @@
                   
                   var m = $("#minutes").val();
                   decrement(m, 0);
+                  
+                });
+              
+               $("#countdown :button").click(function(){
+                  countdownReady = false;
+                  displayJumbotron(countdownReady);
                 });
                  
             });
