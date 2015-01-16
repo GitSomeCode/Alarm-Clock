@@ -123,9 +123,12 @@
             
                   totalSec = min*60;
                   
-                  return setInterval(function(){
-                    if(totalSec == 0)
+                  var timer = setInterval(function(){
+                    if(totalSec == 0){
                       console.log("REACHED ZERO");
+                      clearInterval(timer);
+                      console.log("GET UP!");
+                    }
                     else{
                       totalSec--;
                       console.log("current secs " + totalSec);
@@ -148,6 +151,8 @@
                       
                     } 
                   }, 1000);
+                  
+                  return timer;
                 }
                  
               
@@ -177,8 +182,6 @@
               minutes = 2;
               seconds = 0;
               
-              
-                  
               decrement(minutes, seconds);
               
               
