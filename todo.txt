@@ -1,0 +1,5 @@
+1. user input integer to be set as minutes and seconds for countdown
+2. when user pushes 'set' button, countdown starts
+3. countdown appears ontop of main jumbotron
+4. when countdown finishes, leave 00:00 on jumbotron (flashing red), and put alarm clock sound
+5. Flashing red and alarm clock for 5-10 seconds, then returns to initial mode
