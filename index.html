@@ -25,7 +25,7 @@
                             </div>
                             
                             <div id="real-time-clock">
-                                <h1>REAL TIME CLOCK</h1>
+                                <h1></h1>
                             </div>
                         </div>
                     </div>
@@ -78,12 +78,16 @@
         <script type="text/javascript" src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.1/js/bootstrap.min.js"></script>
         
         <script type="text/javascript">
-            $(document).ready(function(){
-              
-              var countdownReady = false;
-              displayJumbotron(countdownReady);
-              
-                /* HELPER FUNCTIONS */ 
+          
+          function realTime(){
+                  setInterval(function(){
+                    var d = new Date();
+                    console.log("realtime clock now!");
+                    $("#real-time-clock > h1").text(format(d.getHours(), d.getMinutes(), d.getSeconds()));
+                  }, 1000);
+                }
+          
+          /* HELPER FUNCTIONS */ 
                 function getDay(day){
                   days = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"];
                   return days[day];
@@ -112,17 +116,13 @@
                   return hours + ":" + minutes + ":" + seconds + " " + suffix;
                 }
               
-                function realTime(){
-                  setInterval(function(){
-                    var d = new Date();
-                    $("#real-time-clock > h1").text(format(d.getHours(), d.getMinutes(), d.getSeconds()));
-                  }, 1000);
-                }
-              
                 
                 var timer = '';
                 function decrement(min, sec){
                   totalSec = min*60;
+                  if (min < 10)
+                    min = '0' + min;
+                  sec = '00';
                   $("#countdown p").text(min + ":" + sec);
                   
                   timer = setInterval(function(){
@@ -144,20 +144,31 @@
                       // formatting countdown to display
                       if(sec == 0){
                         min--;
+                        
+                        if (min < 10 && min > 0){
+                          min = '0' + min;
+                        }
+                        else if (min == 0)
+                          min = '00';
+                        console.log("dsfjsdfjksdfh-----> " + min);
+                        
                         sec = 60;
                         sec--;
+                       
                         console.log("NEW MINUTE--> " + min + ":" + sec);
                       }
                       else {
                         sec--;
                         console.log("NOT NEW MINTE--> " + min + ":" + sec);
                       }
-                      console.log(min + ":" + sec);
-                      $("#countdown p").text(min + ":" + sec);
-                      //
+                      if (sec < 10)
+                        sec = '0' + sec;
                       
+                      console.log(min + ":" + sec);
+                      $("#countdown p").html("");
+                      $("#countdown p").text(min + ":" + sec);
+                     
                     } 
-                    
                   }, 1000);
                   
                   return timer;
@@ -189,11 +200,18 @@
               
                 /* TIME */
                 var suffix = "";
+          
+          
+            $(document).ready(function(){
+              realTime();
+              var countdownReady = false;
+              displayJumbotron(countdownReady);
    
               
                 /* SHOW DATE AND DISPLAY TIME IN REALTIME */
                 $("#date > h3").text(getDay(day) + " " + getMonth(month) + " " + date + ", " + year);
-                realTime();
+                //realTime();
+                
               
                 /* USER SET COUNTDOWN */
                 $("#set-button").click(function(){
@@ -213,16 +231,6 @@
                   }
                   
                 });
-              /*
-              $("#countdownModal").modal({
-                "backdrop" : "static"
-              })
-              
-              
-              $("#countdownModal").on('show.bs.modal', function(e){
-                
-              });
-              */
               
                $("#closeCountdown").click(function(){
                   countdownReady = false;
