@@ -118,6 +118,7 @@
               
                 
                 var timer = '';
+                
                 function decrement(min, sec){
                   totalSec = min*60;
                   if (min < 10)
@@ -126,16 +127,17 @@
                   $("#countdown p").text(min + ":" + sec);
                   
                   timer = setInterval(function(){
-                    
                     if(totalSec == 0){
+                      var beep = new Audio("Mp3-alarm-clock.mp3");
                       console.log("REACHED ZERO");
                       clearInterval(timer);
                       countdownReady = false;
                       $("#countdown p").css({"color":"red"});
+                      beep.play();
                       setTimeout(function(){ 
                         displayJumbotron(countdownReady);
                         $("#countdownModal").modal('hide');
-                      }, 5000);
+                      }, 6500);
                     }
                     else{
                       totalSec--;
